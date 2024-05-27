@@ -255,7 +255,8 @@
 								"datasetParameters": {
 									"sourceNYCVpayroll2020": {},
 									"sourceNYCVpayroll2021": {},
-									"sinkSQLDBnycpayrollSummary": {}
+									"sinkSQLDBnycpayrollSummary": {},
+									"sinkDirstaging": {}
 								}
 							},
 							"staging": {},
@@ -1136,6 +1137,17 @@
 								"type": "DatasetReference"
 							},
 							"name": "sinkSQLDBnycpayrollSummary"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_dirstaging",
+								"type": "DatasetReference"
+							},
+							"name": "sinkDirstaging",
+							"rejectedDataLinkedService": {
+								"referenceName": "ls_DataLakeV2",
+								"type": "LinkedServiceReference"
+							}
 						}
 					],
 					"transformations": [
@@ -1232,14 +1244,38 @@
 						"          FiscalYear,",
 						"          AgencyName,",
 						"          TotalPaid",
-						"     )) ~> sinkSQLDBnycpayrollSummary"
+						"     )) ~> sinkSQLDBnycpayrollSummary",
+						"aggAgencyYearTotalPaid sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          FiscalYear as string,",
+						"          AgencyName as string,",
+						"          TotalPaid as string",
+						"     ),",
+						"     truncate: true,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     outputAssertFailedRows: true,",
+						"     assertFailure_fileSystem: 'adlsnycpayroll-paolo-r',",
+						"     assertFailure_folderPath: 'errors',",
+						"     mapColumn(",
+						"          FiscalYear,",
+						"          AgencyName,",
+						"          TotalPaid",
+						"     ),",
+						"     partitionBy('hash', 1)) ~> sinkDirstaging"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_sqldb_nycpayroll2020')]",
 				"[concat(variables('factoryId'), '/datasets/ds_sqldb_nycpayroll2021')]",
-				"[concat(variables('factoryId'), '/datasets/ds_sqldb_nycpayrollSummary')]"
+				"[concat(variables('factoryId'), '/datasets/ds_sqldb_nycpayrollSummary')]",
+				"[concat(variables('factoryId'), '/datasets/ds_dirstaging')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_DataLakeV2')]"
 			]
 		},
 		{
@@ -1651,6 +1687,18 @@
 				"[concat(variables('factoryId'), '/datasets/ds_csv_titleMaster')]",
 				"[concat(variables('factoryId'), '/datasets/ds_sqldb_nycpayrollTitleMD')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		}
 	]
 }
