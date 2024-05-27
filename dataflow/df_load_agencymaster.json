@@ -1,13 +1,53 @@
 {
-	"name": "dataflow1",
+	"name": "df_load_agencymaster",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_csv_agencyMaster",
+						"type": "DatasetReference"
+					},
+					"name": "sourceAgencyMaster"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sqldb_nycpayrollAgencyMD",
+						"type": "DatasetReference"
+					},
+					"name": "sinkSQLDBAgencyMaster"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          AgencyID as string,",
+				"          AgencyName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceAgencyMaster",
+				"sourceAgencyMaster sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          AgencyID as string,",
+				"          AgencyName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          AgencyID,",
+				"          AgencyName",
+				"     )) ~> sinkSQLDBAgencyMaster"
 			]
 		}
 	}
