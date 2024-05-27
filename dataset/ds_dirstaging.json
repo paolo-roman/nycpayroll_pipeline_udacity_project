@@ -1,0 +1,37 @@
+{
+	"name": "ds_dirstaging",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_DataLakeV2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "dirstaging",
+				"fileSystem": "adlsnycpayroll-paolo-r"
+			},
+			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": [
+			{
+				"name": "FiscalYear",
+				"type": "String"
+			},
+			{
+				"name": "AgencyName",
+				"type": "String"
+			},
+			{
+				"name": "TotalPaid",
+				"type": "String"
+			}
+		]
+	}
+}
