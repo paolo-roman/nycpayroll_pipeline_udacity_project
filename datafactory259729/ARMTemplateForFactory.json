@@ -773,6 +773,31 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_dirstaging_parquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_DataLakeV2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "dirstaging",
+						"fileSystem": "adlsnycpayroll-paolo-r"
+					},
+					"compressionCodec": "none"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_DataLakeV2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_sqldb_nycpayroll2020')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1310,13 +1335,7 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     outputAssertFailedRows: true,",
 						"     assertFailure_fileSystem: 'adlsnycpayroll-paolo-r',",
-						"     assertFailure_folderPath: 'errors',",
-						"     mapColumn(",
-						"          FiscalYear,",
-						"          AgencyName,",
-						"          TotalPaid",
-						"     ),",
-						"     partitionBy('hash', 1)) ~> sinkDirstaging"
+						"     assertFailure_folderPath: 'errors') ~> sinkDirstaging"
 					]
 				}
 			},
