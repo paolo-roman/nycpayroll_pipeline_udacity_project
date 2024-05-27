@@ -26,13 +26,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "sinkSQLDBnycpayrollSummary"
-				},
-				{
-					"dataset": {
-						"referenceName": "ds_dirstaging",
-						"type": "DatasetReference"
-					},
-					"name": "sinkDirstaging"
 				}
 			],
 			"transformations": [
@@ -129,25 +122,7 @@
 				"          FiscalYear,",
 				"          AgencyName,",
 				"          TotalPaid",
-				"     )) ~> sinkSQLDBnycpayrollSummary",
-				"aggAgencyYearTotalPaid sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
-				"          FiscalYear as string,",
-				"          AgencyName as string,",
-				"          TotalPaid as string",
-				"     ),",
-				"     truncate: true,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     mapColumn(",
-				"          FiscalYear,",
-				"          AgencyName,",
-				"          TotalPaid",
-				"     )) ~> sinkDirstaging"
+				"     )) ~> sinkSQLDBnycpayrollSummary"
 			]
 		}
 	}
