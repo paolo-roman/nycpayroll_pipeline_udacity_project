@@ -149,13 +149,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     outputAssertFailedRows: true,",
 				"     assertFailure_fileSystem: 'adlsnycpayroll-paolo-r',",
-				"     assertFailure_folderPath: 'errors',",
-				"     mapColumn(",
-				"          FiscalYear,",
-				"          AgencyName,",
-				"          TotalPaid",
-				"     ),",
-				"     partitionBy('hash', 1)) ~> sinkDirstaging"
+				"     assertFailure_folderPath: 'errors') ~> sinkDirstaging"
 			]
 		}
 	}

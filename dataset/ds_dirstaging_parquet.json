@@ -1,0 +1,20 @@
+{
+	"name": "ds_dirstaging_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_DataLakeV2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "dirstaging",
+				"fileSystem": "adlsnycpayroll-paolo-r"
+			},
+			"compressionCodec": "none"
+		},
+		"schema": []
+	}
+}
