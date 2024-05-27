@@ -18,6 +18,19 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "FiscalYear",
+				"type": "String"
+			},
+			{
+				"name": "AgencyName",
+				"type": "String"
+			},
+			{
+				"name": "TotalPaid",
+				"type": "String"
+			}
+		]
 	}
 }
