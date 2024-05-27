@@ -13,64 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/df_load_titlemaster')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_csv_titleMaster",
-								"type": "DatasetReference"
-							},
-							"name": "sourceTitleMaster"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_sqldb_nycpayrollTitleMD",
-								"type": "DatasetReference"
-							},
-							"name": "sinkSQLDBnycpayrollTitleMD"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          TitleCode as string,",
-						"          TitleDescription as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> sourceTitleMaster",
-						"sourceTitleMaster sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          TitleCode as string,",
-						"          TitleDescription as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          TitleCode,",
-						"          TitleDescription",
-						"     )) ~> sinkSQLDBnycpayrollTitleMD"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/pipeline_nycpayroll')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -297,8 +239,7 @@
 								"datasetParameters": {
 									"sourceNYCVpayroll2020": {},
 									"sourceNYCVpayroll2021": {},
-									"sinkSQLDBnycpayrollSummary": {},
-									"sinkDirstaging": {}
+									"sinkSQLDBnycpayrollSummary": {}
 								}
 							},
 							"staging": {},
@@ -315,9 +256,7 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_load_titlemaster')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
