@@ -22,7 +22,7 @@
 		"schema": [
 			{
 				"name": "FiscalYear",
-				"type": "String"
+				"type": "Integer"
 			},
 			{
 				"name": "AgencyName",
@@ -30,7 +30,7 @@
 			},
 			{
 				"name": "TotalPaid",
-				"type": "String"
+				"type": "Float"
 			}
 		]
 	}
