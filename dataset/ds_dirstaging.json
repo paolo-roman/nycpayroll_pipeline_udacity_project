@@ -10,13 +10,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "dirstaging",
+				"folderPath": "temp",
 				"fileSystem": "adlsnycpayroll-paolo-r"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": null
 		},
 		"schema": [
 			{
